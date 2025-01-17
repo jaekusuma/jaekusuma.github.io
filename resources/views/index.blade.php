@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Personal Page</title>
-    <link rel="icon" href="/favicon.png" type="image/png" />
-    <link rel="stylesheet" href="assets\css\styles.css">
+    <link rel="icon" href="img\favicon.png" type="img/png" />
+    <link rel="stylesheet" href="css\styles.css">
 </head>
 <body>
     
@@ -23,9 +23,9 @@
     <p id="belonJadi" class="blinking" style="font-size: 100px; text-align: center;">BELON JADI NTAR SABAR</p>
 
     <audio loop autoplay>
-        <source src="assets\audio\caramell.ogg" type="audio/ogg">
+        <source src="audio\caramell.ogg" type="audio/ogg">
     </audio>
     
-    <script src="assets\js\main.js"></script>
+    <script src="js\main.js"></script>
 </body>
 </html>
