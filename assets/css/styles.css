@@ -2,16 +2,23 @@ body {
     transition: background-color 0.5s;
     background-color: white;
     color: black;
+    
+    #navbar {
+        color: white;
+    }
 }
 
 body.dark-mode {
     background-color: black;
     color: white;
+    
 }
 
 .switcContainer {
-    text-align: right;
-    margin-top: 10px;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
 }
 
 .switch {
@@ -60,22 +67,41 @@ input:checked + .slider:before {
     transform: translateX(21px);
 }
 
-@keyframes blink {
-    0% { opacity: 1; }
-    50% { opacity: 0; }
-    100% { opacity: 1; }
-}
-
-.blinking {
-    animation: blink 1s infinite;
-}
-
-#belonJadi {
+#navbar{
+    background-color: black;
+    opacity: 0.5;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
+    padding: 10px 0;
 }
 
+#navbar a {
+    text-decoration: none;
+    color: inherit;
+    padding: 10px;
+    transition: background-color 0.3s;
+}
+
+#navbar a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+    #navbar {
+        flex-direction: column;
+    }
+    #navbar a {
+        padding: 15px 0;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+#blog-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
