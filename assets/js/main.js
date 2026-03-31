@@ -13,13 +13,19 @@ toggle.addEventListener('change', () => {
     localStorage.setItem('darkMode', isDark);
 });
 
-// Load content from posting file
-fetch('posting/listblog/index.html')
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('content').innerHTML = data;
-    })
-    .catch(error => {
-        console.error('Error loading content:', error);
-        document.getElementById('content').innerHTML = '<p>Error loading content.</p>';
-    });
+// Load content from posting file only on home/main page
+const currentPath = window.location.pathname;
+const isHomePage = currentPath === '/' || currentPath === '/index.html';
+
+if (isHomePage) {
+    fetch('pages/listblog/index.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('content').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Error loading content:', error);
+            document.getElementById('content').innerHTML = '<p>Error loading content.</p>';
+        });
+}
+
