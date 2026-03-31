@@ -27,5 +27,7 @@ if (isHomePage) {
             console.error('Error loading content:', error);
             document.getElementById('content').innerHTML = '<p>Error loading content.</p>';
         });
+}else {
+    document.getElementById('content');
 }
 
