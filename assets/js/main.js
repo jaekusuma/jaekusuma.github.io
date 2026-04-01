@@ -1,6 +1,6 @@
 const toggle = document.getElementById('modeToggle');
 
-// Load saved mode
+// Dark-mode button
 const savedMode = localStorage.getItem('darkMode');
 if (savedMode === 'true') {
     document.body.classList.add('dark-mode');
@@ -13,15 +13,57 @@ toggle.addEventListener('change', () => {
     localStorage.setItem('darkMode', isDark);
 });
 
-// Load content from posting file only on home/main page
+// content homepage
 const currentPath = window.location.pathname;
 const isHomePage = currentPath === '/' || currentPath === '/index.html';
 
+let mdTexts = []; // Store full texts
+
+function extractTitleAndSummary(text) {
+    const lines = text.split('\n');
+    let title = 'Untitled';
+    let summary = '';
+    let inSummary = false;
+    for (let line of lines) {
+        if (line.startsWith('# ')) {
+            title = line.substring(2).trim();
+            inSummary = true;
+        } else if (inSummary && line.trim()) {
+            summary += line + ' ';
+            if (summary.length > 200) break;
+        } else if (inSummary && !line.trim()) {
+            break; // End of first paragraph
+        }
+    }
+    if (!summary) summary = text.substring(0, 200) + '...';
+    return { title, summary: summary.trim() + '...' };
+}
+
+function showFull(index) {
+    const contentDiv = document.getElementById('content');
+    contentDiv.innerHTML = '<button onclick="showList()">Back to List</button>' + marked.parse(mdTexts[index]);
+}
+
+function showList() {
+    const contentDiv = document.getElementById('content');
+    let html = '';
+    mdTexts.forEach((text, index) => {
+        const { title, summary } = extractTitleAndSummary(text);
+        html += `<div class="post-summary"><h2><a href="#" onclick="showFull(${index})">${title}</a></h2><p>${summary}</p></div>`;
+    });
+    contentDiv.innerHTML = html;
+}
+
 if (isHomePage) {
-    fetch('pages/listblog/index.html')
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('content').innerHTML = data;
+    fetch('posting/files.json')
+        .then(response => response.json())
+        .then(files => {
+            const promises = files.map(file => fetch('posting/' + file).then(response => response.text()));
+            return Promise.all(promises);
+        })
+        .then(texts => {
+            mdTexts = texts; // Store texts
+            showList(); // Display summaries
         })
         .catch(error => {
             console.error('Error loading content:', error);
