@@ -41,16 +41,32 @@ function extractTitleAndSummary(text) {
 
 function showFull(index) {
     const contentDiv = document.getElementById('content');
-    contentDiv.innerHTML = '<button onclick="showList()">Back to List</button>' + marked.parse(mdTexts[index]);
+    contentDiv.innerHTML = '<button onclick="showList()">Back</button>' + marked.parse(mdTexts[index]);
 }
 
-function showList() {
+function showList(page = 0) {
     const contentDiv = document.getElementById('content');
+    const perPage = 5;
+    const totalPages = Math.ceil(mdTexts.length / perPage);
+    const start = page * perPage;
+    const end = start + perPage;
+    const posts = mdTexts.slice(start, end);
+    
     let html = '';
-    mdTexts.forEach((text, index) => {
+    posts.forEach((text, i) => {
+        const realIndex = start + i;
         const { title, summary } = extractTitleAndSummary(text);
-        html += `<div class="post-summary"><h2><a href="#" onclick="showFull(${index})">${title}</a></h2><p>${summary}</p></div>`;
+        html += `<div class="post-summary"><h2><a href="#" onclick="showFull(${realIndex})">${title}</a></h2><p>${summary}</p></div>`;
     });
+    
+    if (totalPages > 1) {
+        html += '<div class="pagination">';
+        if (page > 0) html += `<button onclick="showList(${page - 1})">Previous</button>`;
+        html += ` Page ${page + 1} of ${totalPages} `;
+        if (page < totalPages - 1) html += `<button onclick="showList(${page + 1})">Next</button>`;
+        html += '</div>';
+    }
+    
     contentDiv.innerHTML = html;
 }
 

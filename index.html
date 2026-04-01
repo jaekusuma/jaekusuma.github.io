@@ -20,17 +20,15 @@
         </div>
     
     
-    <div class="header">
-        <p class="tagline" style="font-size: 30px; text-align: left;">dulu entar ya sabar</p>
-        <div id="navbar">
-            <a href="/">Home</a>
-            <a href="pages/about/index.html">About</a>
-            <a href="pages/projects/index.html">My Project</a>
-            <a href="pages/contact/index.html">Contact</a>
-        </div>
-    </div>
-
+    
+    <div id="header"></div>
     <div id="content"></div>
+    <div id="footer"></div>
+
+    <script>
+        fetch('pages/headerFooter/header.html').then(r => r.text()).then(h => document.getElementById('header').innerHTML = h);
+        fetch('pages/headerFooter/footer.html').then(r => r.text()).then(f => document.getElementById('footer').innerHTML = f);
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="assets/js/main.js"></script>
